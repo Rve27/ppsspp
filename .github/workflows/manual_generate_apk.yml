@@ -60,7 +60,15 @@ jobs:
         run: |
           echo "count=${{steps.valid-tags.outputs.count}}"
           gradle --quiet androidGitVersion
-      
+
+      - name: Write keystore
+        run: |
+          echo "RELEASE_STORE_PASSWORD=${{ secrets.KEYSTORE_PASSWORD }}" >> android/gradle.properties
+          echo "RELEASE_KEY_ALIAS=${{ secrets.KEY_ALIAS }}" >> android/gradle.properties
+          echo "RELEASE_KEY_PASSWORD=${{ secrets.KEY_PASSWORD }}" >> android/gradle.properties
+          echo "RELEASE_STORE_FILE=$GITHUB_WORKSPACE/key.jks" >> android/gradle.properties
+          echo "${{ secrets.KEYSTORE }}" | base64 -d > $GITHUB_WORKSPACE/key.jks
+
       - name: Assemble APK
         run: ./gradlew clean assemble${{ github.event.inputs.buildVariant }} --stacktrace
       
