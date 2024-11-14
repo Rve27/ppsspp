@@ -62,7 +62,7 @@ jobs:
           gradle --quiet androidGitVersion
       
       - name: Assemble APK
-        run: ./gradlew assemble${{ github.event.inputs.buildVariant }} --stacktrace
+        run: ./gradlew clean assemble${{ github.event.inputs.buildVariant }} --stacktrace
       
       #- name: Gradle Test
       #  run: bash ./gradlew test${{ github.event.inputs.buildVariant }}UnitTest --stacktrace
